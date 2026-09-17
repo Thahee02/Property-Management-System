@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Modal from '../common/Modal';
 import { usePMSStore } from '../../store/usePMSStore';
 
-export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) {
+const DEFAULT_PRESELECTED = {};
+
+export default function CreateLeaseModal({ isOpen, onClose, preselected = DEFAULT_PRESELECTED }) {
   const { customers, properties, units, createLease } = usePMSStore();
 
   const [formData, setFormData] = useState({
@@ -21,23 +23,31 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
     notes: ''
   });
 
-  // Prepopulate if provided
+  const preselectedCustomer = preselected?.customerId;
+  const preselectedProperty = preselected?.propertyId;
+  const preselectedUnit = preselected?.unitId;
+
+  // Prepopulate when modal opens
   useEffect(() => {
+    if (!isOpen) return;
+
     const today = new Date();
     const nextYear = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
     const endDateStr = nextYear.toISOString().substring(0, 10);
 
-    const initialCust = preselected.customerId || (customers[0]?.id || '');
-    const initialProp = preselected.propertyId || (properties[0]?.id || '');
+    const initialCust = preselectedCustomer || (customers[0]?.id || '');
+    const initialProp = preselectedProperty || (properties[0]?.id || '');
+    const initialUnit = preselectedUnit || '';
+    const selectedUnit = units.find((u) => u.id === initialUnit);
 
     setFormData({
       customerId: initialCust,
       propertyId: initialProp,
-      unitId: preselected.unitId || '',
+      unitId: initialUnit,
       startDate: new Date().toISOString().substring(0, 10),
       endDate: endDateStr,
-      monthlyRent: '',
-      securityDeposit: '',
+      monthlyRent: selectedUnit ? (selectedUnit.monthlyRent || '') : '',
+      securityDeposit: selectedUnit ? (selectedUnit.securityDeposit || selectedUnit.monthlyRent || '') : '',
       dueDay: 1,
       leaseDurationMonths: 12,
       renewalTerms: 'Standard 12-month extension with 60 days notice.',
@@ -45,11 +55,11 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
       additionalCharges: 0,
       notes: ''
     });
-  }, [isOpen, preselected, customers, properties]);
+  }, [isOpen, preselectedCustomer, preselectedProperty, preselectedUnit]);
 
   // When property changes, reset unitId
   const availableUnitsForProperty = units.filter(
-    (u) => u.propertyId === formData.propertyId && (u.status === 'Available' || u.id === preselected.unitId)
+    (u) => u.propertyId === formData.propertyId && (u.status === 'Available' || u.id === preselectedUnit)
   );
 
   // When unit selected, auto-fill rent and deposit
@@ -75,6 +85,8 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
       ...formData,
       monthlyRent: Number(formData.monthlyRent),
       securityDeposit: Number(formData.securityDeposit),
+      dueDay: Number(formData.dueDay || 1),
+      noticePeriodDays: Number(formData.noticePeriodDays || 60),
       additionalCharges: Number(formData.additionalCharges || 0)
     });
 
@@ -121,7 +133,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
             <select
               required
               value={formData.customerId}
-              onChange={(e) => setFormData({ ...formData, customerId: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, customerId: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
             >
               <option value="">-- Choose Tenant --</option>
@@ -142,7 +154,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
                 required
                 value={formData.propertyId}
                 onChange={(e) => {
-                  setFormData({ ...formData, propertyId: e.target.value, unitId: '' });
+                  setFormData((prev) => ({ ...prev, propertyId: e.target.value, unitId: '' }));
                 }}
                 className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
               >
@@ -197,7 +209,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
                 type="date"
                 required
                 value={formData.startDate}
-                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                onChange={(e) => setFormData((prev) => ({ ...prev, startDate: e.target.value }))}
                 className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
               />
             </div>
@@ -210,7 +222,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
                 type="date"
                 required
                 value={formData.endDate}
-                onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                onChange={(e) => setFormData((prev) => ({ ...prev, endDate: e.target.value }))}
                 className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
               />
             </div>
@@ -225,7 +237,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
                 type="number"
                 required
                 value={formData.monthlyRent}
-                onChange={(e) => setFormData({ ...formData, monthlyRent: e.target.value })}
+                onChange={(e) => setFormData((prev) => ({ ...prev, monthlyRent: e.target.value }))}
                 className="w-full px-3 py-2 rounded-xl border border-slate-300"
               />
             </div>
@@ -238,7 +250,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
                 type="number"
                 required
                 value={formData.securityDeposit}
-                onChange={(e) => setFormData({ ...formData, securityDeposit: e.target.value })}
+                onChange={(e) => setFormData((prev) => ({ ...prev, securityDeposit: e.target.value }))}
                 className="w-full px-3 py-2 rounded-xl border border-slate-300"
               />
             </div>
@@ -252,7 +264,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
                 min="1"
                 max="28"
                 value={formData.dueDay}
-                onChange={(e) => setFormData({ ...formData, dueDay: Number(e.target.value) })}
+                onChange={(e) => setFormData((prev) => ({ ...prev, dueDay: e.target.value }))}
                 className="w-full px-3 py-2 rounded-xl border border-slate-300"
               />
             </div>
@@ -266,7 +278,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
               <input
                 type="number"
                 value={formData.additionalCharges}
-                onChange={(e) => setFormData({ ...formData, additionalCharges: e.target.value })}
+                onChange={(e) => setFormData((prev) => ({ ...prev, additionalCharges: e.target.value }))}
                 placeholder="e.g. 50 (Parking, Pet fee)"
                 className="w-full px-3 py-2 rounded-xl border border-slate-300"
               />
@@ -279,7 +291,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
               <input
                 type="number"
                 value={formData.noticePeriodDays}
-                onChange={(e) => setFormData({ ...formData, noticePeriodDays: Number(e.target.value) })}
+                onChange={(e) => setFormData((prev) => ({ ...prev, noticePeriodDays: e.target.value }))}
                 className="w-full px-3 py-2 rounded-xl border border-slate-300"
               />
             </div>
@@ -292,7 +304,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
             <input
               type="text"
               value={formData.renewalTerms}
-              onChange={(e) => setFormData({ ...formData, renewalTerms: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, renewalTerms: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300"
             />
           </div>
@@ -304,7 +316,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = {} }) 
             <textarea
               rows="2"
               value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, notes: e.target.value }))}
               placeholder="Key handover notes, storage locker numbers, parking stall allocation..."
               className="w-full px-3 py-2 rounded-xl border border-slate-300"
             />

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Modal from '../common/Modal';
 import { usePMSStore } from '../../store/usePMSStore';
 
-export default function RecordPaymentModal({ isOpen, onClose, preselected = {} }) {
+const DEFAULT_PRESELECTED = {};
+
+export default function RecordPaymentModal({ isOpen, onClose, preselected = DEFAULT_PRESELECTED }) {
   const { customers, properties, units, leases, recordPayment } = usePMSStore();
 
   const [formData, setFormData] = useState({
@@ -17,15 +19,22 @@ export default function RecordPaymentModal({ isOpen, onClose, preselected = {} }
     notes: ''
   });
 
+  const preselectedCustomer = preselected?.customerId;
+  const preselectedProperty = preselected?.propertyId;
+
   useEffect(() => {
-    const custId = preselected.customerId || (customers[0]?.id || '');
+    if (!isOpen) return;
+
+    const custId = preselectedCustomer || (customers[0]?.id || '');
     const cust = customers.find((c) => c.id === custId);
-    const propId = preselected.propertyId || cust?.currentPropertyId || (properties[0]?.id || '');
-    const prop = properties.find((p) => p.id === propId);
+    const propId = preselectedProperty || cust?.currentPropertyId || (properties[0]?.id || '');
     const unitNo = cust?.currentUnitNumber || 'A-101';
 
     // Find rent amount if lease exists
     const lease = leases.find((l) => l.customerId === custId);
+
+    // Generate a stable unique reference code once when modal opens
+    const uniqueRef = `TRX-${Math.floor(100000 + Math.random() * 900000)}`;
 
     setFormData({
       customerId: custId,
@@ -35,10 +44,10 @@ export default function RecordPaymentModal({ isOpen, onClose, preselected = {} }
       paymentDate: new Date().toISOString().substring(0, 10),
       dueDate: new Date().toISOString().substring(0, 10),
       method: 'Bank Transfer',
-      referenceNumber: `TRX-${Date.now().toString().slice(-6)}`,
+      referenceNumber: uniqueRef,
       notes: 'Monthly rental settlement'
     });
-  }, [isOpen, preselected, customers, properties, leases]);
+  }, [isOpen, preselectedCustomer, preselectedProperty]);
 
   const handleCustomerChange = (custId) => {
     const cust = customers.find((c) => c.id === custId);
@@ -118,7 +127,7 @@ export default function RecordPaymentModal({ isOpen, onClose, preselected = {} }
             <select
               required
               value={formData.propertyId}
-              onChange={(e) => setFormData({ ...formData, propertyId: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, propertyId: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
             >
               {properties.map((p) => (
@@ -136,7 +145,7 @@ export default function RecordPaymentModal({ isOpen, onClose, preselected = {} }
             <input
               type="text"
               value={formData.unitNumber}
-              onChange={(e) => setFormData({ ...formData, unitNumber: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, unitNumber: e.target.value }))}
               placeholder="e.g. A-101"
               className="w-full px-3 py-2 rounded-xl border border-slate-300"
             />
@@ -152,7 +161,7 @@ export default function RecordPaymentModal({ isOpen, onClose, preselected = {} }
               type="number"
               required
               value={formData.amount}
-              onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, amount: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 font-bold text-slate-900"
             />
           </div>
@@ -163,7 +172,7 @@ export default function RecordPaymentModal({ isOpen, onClose, preselected = {} }
             </label>
             <select
               value={formData.method}
-              onChange={(e) => setFormData({ ...formData, method: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, method: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
             >
               <option value="Bank Transfer">Bank Transfer (ACH / Wire)</option>
@@ -184,7 +193,7 @@ export default function RecordPaymentModal({ isOpen, onClose, preselected = {} }
               type="date"
               required
               value={formData.paymentDate}
-              onChange={(e) => setFormData({ ...formData, paymentDate: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, paymentDate: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
             />
           </div>
@@ -196,7 +205,7 @@ export default function RecordPaymentModal({ isOpen, onClose, preselected = {} }
             <input
               type="text"
               value={formData.referenceNumber}
-              onChange={(e) => setFormData({ ...formData, referenceNumber: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, referenceNumber: e.target.value }))}
               placeholder="e.g. WIRE-990182"
               className="w-full px-3 py-2 rounded-xl border border-slate-300"
             />
@@ -210,7 +219,7 @@ export default function RecordPaymentModal({ isOpen, onClose, preselected = {} }
           <input
             type="text"
             value={formData.notes}
-            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+            onChange={(e) => setFormData((prev) => ({ ...prev, notes: e.target.value }))}
             placeholder="e.g. Monthly rent settlement for January 2024"
             className="w-full px-3 py-2 rounded-xl border border-slate-300"
           />

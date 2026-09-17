@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Modal from '../common/Modal';
 import { usePMSStore } from '../../store/usePMSStore';
 
-export default function CreateTicketModal({ isOpen, onClose, preselected = {} }) {
+const DEFAULT_PRESELECTED = {};
+
+export default function CreateTicketModal({ isOpen, onClose, preselected = DEFAULT_PRESELECTED }) {
   const { customers, properties, units, users, createMaintenance } = usePMSStore();
 
   const [formData, setFormData] = useState({
@@ -19,11 +21,17 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
 
   const staffMembers = users.filter((u) => u.role === 'Staff' || u.role === 'Property Manager');
 
+  const preselectedCustomer = preselected?.customerId;
+  const preselectedProperty = preselected?.propertyId;
+  const preselectedUnit = preselected?.unitId;
+
   useEffect(() => {
-    const defaultCust = preselected.customerId || (customers[0]?.id || '');
+    if (!isOpen) return;
+
+    const defaultCust = preselectedCustomer || (customers[0]?.id || '');
     const cust = customers.find((c) => c.id === defaultCust);
-    const defaultProp = preselected.propertyId || cust?.currentPropertyId || (properties[0]?.id || '');
-    const defaultUnit = preselected.unitId || cust?.currentUnitId || '';
+    const defaultProp = preselectedProperty || cust?.currentPropertyId || (properties[0]?.id || '');
+    const defaultUnit = preselectedUnit || cust?.currentUnitId || '';
 
     const next3Days = new Date();
     next3Days.setDate(next3Days.getDate() + 3);
@@ -39,7 +47,7 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
       assignedStaffId: staffMembers[0]?.id || '',
       dueDate: next3Days.toISOString().substring(0, 10)
     });
-  }, [isOpen, preselected, customers, properties, units, users]);
+  }, [isOpen, preselectedCustomer, preselectedProperty, preselectedUnit]);
 
   const propertyUnits = units.filter((u) => u.propertyId === formData.propertyId);
 
@@ -86,7 +94,7 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
             type="text"
             required
             value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
             placeholder="e.g. Water leak under kitchen sink fixture"
             className="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-hidden focus:ring-2 focus:ring-emerald-500/20"
           />
@@ -97,7 +105,7 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
             <label className="block font-bold text-slate-700 mb-1">Category</label>
             <select
               value={formData.category}
-              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
             >
               <option value="Plumbing">Plumbing</option>
@@ -114,7 +122,7 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
             <label className="block font-bold text-slate-700 mb-1">Priority Level</label>
             <select
               value={formData.priority}
-              onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, priority: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold"
             >
               <option value="Low">Low (Routine)</option>
@@ -133,7 +141,7 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
             <select
               required
               value={formData.propertyId}
-              onChange={(e) => setFormData({ ...formData, propertyId: e.target.value, unitId: '' })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, propertyId: e.target.value, unitId: '' }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
             >
               {properties.map((p) => (
@@ -148,7 +156,7 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
             <label className="block font-bold text-slate-700 mb-1">Unit</label>
             <select
               value={formData.unitId}
-              onChange={(e) => setFormData({ ...formData, unitId: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, unitId: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
             >
               <option value="">-- Common Area / Building General --</option>
@@ -166,7 +174,7 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
             <label className="block font-bold text-slate-700 mb-1">Reporting Tenant</label>
             <select
               value={formData.customerId}
-              onChange={(e) => setFormData({ ...formData, customerId: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, customerId: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
             >
               <option value="">-- Reported by Building Staff --</option>
@@ -182,7 +190,7 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
             <label className="block font-bold text-slate-700 mb-1">Assign Technician / Lead</label>
             <select
               value={formData.assignedStaffId}
-              onChange={(e) => setFormData({ ...formData, assignedStaffId: e.target.value })}
+              onChange={(e) => setFormData((prev) => ({ ...prev, assignedStaffId: e.target.value }))}
               className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
             >
               <option value="">-- Unassigned (Open Queue) --</option>
@@ -200,7 +208,7 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
           <input
             type="date"
             value={formData.dueDate}
-            onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+            onChange={(e) => setFormData((prev) => ({ ...prev, dueDate: e.target.value }))}
             className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
           />
         </div>
@@ -210,7 +218,7 @@ export default function CreateTicketModal({ isOpen, onClose, preselected = {} })
           <textarea
             rows="3"
             value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
             placeholder="Detailed description of symptoms, location inside unit, tenant availability for access..."
             className="w-full px-3 py-2 rounded-xl border border-slate-300"
           />
