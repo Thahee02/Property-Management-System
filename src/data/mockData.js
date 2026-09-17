@@ -1486,7 +1486,7 @@ export const INITIAL_ACTIVITY_LOGS = [
     action: 'Payment Recorded',
     module: 'Payments',
     timestamp: '2024-01-03 16:22:45',
-    description: 'Recorded wire transfer receipt $6,700 from Nexus Tech Ventures for Jan 2024 rent'
+    description: 'Recorded wire transfer receipt QAR 6,700 from Nexus Tech Ventures for Jan 2024 rent'
   },
   {
     id: 'ACT-903',
@@ -1524,7 +1524,7 @@ export const INITIAL_SETTINGS = {
   supportEmail: 'operations@apexproperties.com',
   emergencyDispatchPhone: '+1 (800) 555-APEX',
   hqAddress: '1000 Commercial Plaza, Suite 400, Chicago, IL 60601',
-  currency: 'USD ($)',
+  currency: 'QAR',
   taxRatePercent: 7.5,
   gracePeriodDays: 5,
   defaultLeaseDurationMonths: 12,

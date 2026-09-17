@@ -155,7 +155,7 @@ export default function RecordPaymentModal({ isOpen, onClose, preselected = DEFA
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="block font-bold text-slate-700 mb-1">
-              Payment Amount ($) <span className="text-rose-500">*</span>
+              Payment Amount (QAR) <span className="text-rose-500">*</span>
             </label>
             <input
               type="number"

@@ -155,7 +155,7 @@ export default function UnitListView({ onOpenQuickAction }) {
                     </td>
 
                     <td className="py-3.5 px-4 font-bold text-slate-900">
-                      ${unit.monthlyRent?.toLocaleString()}/mo
+                      QAR {unit.monthlyRent?.toLocaleString()}/mo
                     </td>
 
                     <td className="py-3.5 px-4">

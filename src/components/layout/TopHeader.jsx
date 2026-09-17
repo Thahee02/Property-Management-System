@@ -199,7 +199,7 @@ export default function TopHeader({ setMobileOpen, onOpenQuickAction, onOpenSear
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-slate-900">
-                        Overdue Rent: ${p.amount.toLocaleString()}
+                        Overdue Rent: QAR {p.amount.toLocaleString()}
                       </p>
                       <p className="text-[11px] text-slate-500">
                         {p.customerName} - {p.propertyName} ({p.unitNumber})

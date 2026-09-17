@@ -54,7 +54,7 @@ export default function ReportsView() {
     } else {
       csvContent += 'Item,Description,Status,Amount\r\n';
       payments.forEach((p) => {
-        csvContent += `"${p.invoiceNumber}","${p.customerName} - ${p.propertyName}",${p.status},$${p.amount}\r\n`;
+        csvContent += `"${p.invoiceNumber}","${p.customerName} - ${p.propertyName}",${p.status},QAR ${p.amount}\r\n`;
       });
     }
 
@@ -290,7 +290,7 @@ export default function ReportsView() {
                         <StatusBadge status={p.status} size="xs" />
                       </td>
                       <td className="py-3 px-4 text-right font-extrabold text-slate-900">
-                        ${p.amount.toLocaleString()}
+                        QAR {p.amount.toLocaleString()}
                       </td>
                     </tr>
                   ))}
@@ -322,7 +322,7 @@ export default function ReportsView() {
                     <td className="py-3 px-4 text-slate-600">
                       {l.propertyName} ({l.unitNumber})
                     </td>
-                    <td className="py-3 px-4 font-extrabold text-slate-900">${l.monthlyRent.toLocaleString()}</td>
+                    <td className="py-3 px-4 font-extrabold text-slate-900">QAR {l.monthlyRent.toLocaleString()}</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{l.endDate}</td>
                     <td className="py-3 px-4">
                       <StatusBadge status={l.status} size="xs" />
@@ -393,7 +393,7 @@ export default function ReportsView() {
                     <div className="mt-3 pt-3 border-t border-slate-100">
                       <span className="text-[10px] uppercase font-bold text-slate-400 block">Annualized Run Rate</span>
                       <span className="text-base font-extrabold text-emerald-700">
-                        ${(rentRoll * 12).toLocaleString()} / yr
+                        QAR {(rentRoll * 12).toLocaleString()} / yr
                       </span>
                     </div>
                   </div>

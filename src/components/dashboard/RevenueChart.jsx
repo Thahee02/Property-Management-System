@@ -65,8 +65,8 @@ export default function RevenueChart() {
               <div key={idx} className="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
                 {/* Tooltip on hover */}
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-slate-900 text-white text-[11px] py-1 px-2 rounded-md shadow-lg pointer-events-none mb-1 text-center whitespace-nowrap">
-                  <span className="font-bold">${item.collected.toLocaleString()}</span>
-                  <span className="block text-[9px] text-slate-400">Target: ${item.target.toLocaleString()}</span>
+                  <span className="font-bold">QAR {item.collected.toLocaleString()}</span>
+                  <span className="block text-[9px] text-slate-400">Target: QAR {item.target.toLocaleString()}</span>
                 </div>
 
                 <div className="w-full max-w-[42px] relative flex items-end justify-center h-full">
@@ -74,7 +74,7 @@ export default function RevenueChart() {
                   <div
                     className="absolute w-full border-b-2 border-dashed border-slate-300 pointer-events-none z-10"
                     style={{ bottom: `${targetPercent}%` }}
-                    title={`Target: $${item.target}`}
+                    title={`Target: QAR ${item.target}`}
                   />
                   {/* Realized Bar */}
                   <div
@@ -105,7 +105,7 @@ export default function RevenueChart() {
           </span>
         </div>
         <div className="font-semibold text-slate-800">
-          Jan 2024 Collections: <span className="text-emerald-600 font-bold">$46,800</span>
+          Jan 2024 Collections: <span className="text-emerald-600 font-bold">QAR 46,800</span>
         </div>
       </div>
     </div>

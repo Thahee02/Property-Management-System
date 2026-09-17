@@ -123,7 +123,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = DEFAUL
         {/* 3-Way Selector */}
         <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-3">
           <h4 className="font-bold text-slate-900 text-[11px] uppercase tracking-wider text-slate-500">
-            1. Relational Assignment (Tenant $\rightarrow$ Property $\rightarrow$ Unit)
+            1. Relational Assignment (Tenant → Property → Unit)
           </h4>
 
           <div>
@@ -181,7 +181,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = DEFAUL
                 <option value="">-- Select Available Unit --</option>
                 {availableUnitsForProperty.map((u) => (
                   <option key={u.id} value={u.id}>
-                    Unit {u.unitNumber} ({u.type} • Floor {u.floor} • ${u.monthlyRent}/mo)
+                    Unit {u.unitNumber} ({u.type} • Floor {u.floor} • QAR {u.monthlyRent}/mo)
                   </option>
                 ))}
               </select>
@@ -231,7 +231,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = DEFAUL
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label className="block font-bold text-slate-700 mb-1">
-                Monthly Rent ($) <span className="text-rose-500">*</span>
+                Monthly Rent (QAR) <span className="text-rose-500">*</span>
               </label>
               <input
                 type="number"
@@ -244,7 +244,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = DEFAUL
 
             <div>
               <label className="block font-bold text-slate-700 mb-1">
-                Security Deposit ($) <span className="text-rose-500">*</span>
+                Security Deposit (QAR) <span className="text-rose-500">*</span>
               </label>
               <input
                 type="number"
@@ -273,7 +273,7 @@ export default function CreateLeaseModal({ isOpen, onClose, preselected = DEFAUL
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block font-bold text-slate-700 mb-1">
-                Additional Recurring Charges ($)
+                Additional Recurring Charges (QAR)
               </label>
               <input
                 type="number"

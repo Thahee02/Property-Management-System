@@ -266,11 +266,11 @@ export default function CustomerDetailView({ onOpenQuickAction }) {
                   </div>
                   <div>
                     <span className="text-[10px] text-slate-400 uppercase font-semibold">Monthly Rent</span>
-                    <p className="font-bold text-emerald-700">${activeLease.monthlyRent.toLocaleString()}</p>
+                    <p className="font-bold text-emerald-700">QAR {activeLease.monthlyRent.toLocaleString()}</p>
                   </div>
                   <div>
                     <span className="text-[10px] text-slate-400 uppercase font-semibold">Deposit Held</span>
-                    <p className="font-bold text-slate-900">${activeLease.securityDeposit.toLocaleString()}</p>
+                    <p className="font-bold text-slate-900">QAR {activeLease.securityDeposit.toLocaleString()}</p>
                   </div>
                 </div>
 
@@ -346,7 +346,7 @@ export default function CustomerDetailView({ onOpenQuickAction }) {
                       {l.startDate} ~ {l.endDate}
                     </td>
                     <td className="py-3 px-4 font-bold text-emerald-700">
-                      ${l.monthlyRent.toLocaleString()}
+                      QAR {l.monthlyRent.toLocaleString()}
                     </td>
                     <td className="py-3 px-4">
                       <StatusBadge status={l.status} size="xs" />
@@ -396,7 +396,7 @@ export default function CustomerDetailView({ onOpenQuickAction }) {
                 {customerPayments.map((p) => (
                   <tr key={p.id} className="hover:bg-slate-50">
                     <td className="py-3 px-4 font-bold text-slate-900">{p.invoiceNumber}</td>
-                    <td className="py-3 px-4 font-bold text-slate-900">${p.amount.toLocaleString()}</td>
+                    <td className="py-3 px-4 font-bold text-slate-900">QAR {p.amount.toLocaleString()}</td>
                     <td className="py-3 px-4">{p.method}</td>
                     <td className="py-3 px-4">{p.dueDate}</td>
                     <td className="py-3 px-4">{p.paymentDate || '—'}</td>

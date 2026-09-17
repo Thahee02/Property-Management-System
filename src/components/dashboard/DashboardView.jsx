@@ -134,7 +134,7 @@ export default function DashboardView({ onOpenQuickAction }) {
 
         <MetricCard
           title="Monthly Rent Roll"
-          value={`$${monthlyRevenue.toLocaleString()}`}
+          value={`QAR ${monthlyRevenue.toLocaleString()}`}
           subtitle="Projected Monthly Inflow"
           icon={faMoneyBillWave}
           iconBg="bg-teal-50 text-teal-600"
@@ -164,7 +164,7 @@ export default function DashboardView({ onOpenQuickAction }) {
 
         <MetricCard
           title="Outstanding Receivables"
-          value={`$${totalOutstanding.toLocaleString()}`}
+          value={`QAR ${totalOutstanding.toLocaleString()}`}
           subtitle="Pending & Overdue invoices"
           icon={faCircleExclamation}
           iconBg="bg-rose-50 text-rose-600"
@@ -238,7 +238,7 @@ export default function DashboardView({ onOpenQuickAction }) {
                       </span>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs font-bold text-slate-900">${l.monthlyRent.toLocaleString()}/mo</p>
+                      <p className="text-xs font-bold text-slate-900">QAR {l.monthlyRent.toLocaleString()}/mo</p>
                       <StatusBadge status={l.status} size="xs" />
                     </div>
                   </div>
@@ -290,7 +290,7 @@ export default function DashboardView({ onOpenQuickAction }) {
                     <span className="text-[10px] text-slate-400">{p.paymentDate || `Due: ${p.dueDate}`}</span>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs font-bold text-slate-900">${p.amount.toLocaleString()}</p>
+                    <p className="text-xs font-bold text-slate-900">QAR {p.amount.toLocaleString()}</p>
                     <StatusBadge status={p.status} size="xs" />
                   </div>
                 </div>

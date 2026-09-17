@@ -228,7 +228,7 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
                           Unit {u.unitNumber} - {u.propertyName}
                         </p>
                         <p className="text-[11px] text-slate-500">
-                          {u.type} • ${u.monthlyRent}/mo • Status: {u.status}
+                          {u.type} • QAR {u.monthlyRent}/mo • Status: {u.status}
                         </p>
                       </div>
                       <FontAwesomeIcon icon={faArrowRight} className="text-slate-300 text-xs" />

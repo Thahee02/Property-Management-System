@@ -202,7 +202,7 @@ export default function LeaseListView({ onOpenQuickAction }) {
 
                     <td className="py-3.5 px-4">
                       <span className="font-extrabold text-slate-900 text-sm">
-                        ${lease.monthlyRent.toLocaleString()}
+                        QAR {lease.monthlyRent.toLocaleString()}
                       </span>
                       <span className="text-[10px] text-slate-400 block">/month</span>
                     </td>

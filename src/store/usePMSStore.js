@@ -18,7 +18,11 @@ const loadSavedState = () => {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      if (parsed?.settings?.currency === 'USD ($)') {
+        parsed.settings.currency = 'QAR';
+      }
+      return parsed;
     }
   } catch (e) {
     console.error('Failed to parse saved state from localStorage:', e);
@@ -362,7 +366,7 @@ export const usePMSStore = create((set, get) => ({
     }));
 
     get().logActivity(
-      `Renewed Lease ${target.leaseNumber} until ${newEndDate} at $${newRent || target.monthlyRent}/mo`,
+      `Renewed Lease ${target.leaseNumber} until ${newEndDate} at QAR ${newRent || target.monthlyRent}/mo`,
       'Leases',
       'Lease Renewed'
     );
@@ -448,11 +452,11 @@ export const usePMSStore = create((set, get) => ({
     }
 
     get().logActivity(
-      `Recorded rent payment $${paymentRecord.amount} for ${paymentRecord.customerName} (${paymentRecord.invoiceNumber})`,
+      `Recorded rent payment QAR ${paymentRecord.amount} for ${paymentRecord.customerName} (${paymentRecord.invoiceNumber})`,
       'Payments',
       'Payment Recorded'
     );
-    get().addToast(`Payment $${paymentRecord.amount} successfully recorded.`);
+    get().addToast(`Payment QAR ${paymentRecord.amount} successfully recorded.`);
     get().persistState();
     return paymentRecord;
   },

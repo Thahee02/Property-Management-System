@@ -185,7 +185,7 @@ export default function PropertyDetailView({ onOpenQuickAction }) {
               Monthly Realized Rent
             </span>
             <p className="font-bold text-slate-900">
-              ${monthlyPropertyRevenue.toLocaleString()} / mo
+              QAR {monthlyPropertyRevenue.toLocaleString()} / mo
             </p>
           </div>
         </div>
@@ -270,7 +270,7 @@ export default function PropertyDetailView({ onOpenQuickAction }) {
                             {unit.bedrooms > 0 ? `${unit.bedrooms} Bed` : 'Studio'} • {unit.bathrooms} Bath • {unit.area} sq ft
                           </p>
                           <p className="font-bold text-slate-900 text-sm">
-                            ${unit.monthlyRent?.toLocaleString()}/mo
+                            QAR {unit.monthlyRent?.toLocaleString()}/mo
                           </p>
                         </div>
 
@@ -389,7 +389,7 @@ export default function PropertyDetailView({ onOpenQuickAction }) {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Monthly Rent ($) *</label>
+              <label className="block font-bold text-slate-700 mb-1">Monthly Rent (QAR) *</label>
               <input
                 type="number"
                 required
@@ -399,7 +399,7 @@ export default function PropertyDetailView({ onOpenQuickAction }) {
               />
             </div>
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Security Deposit ($)</label>
+              <label className="block font-bold text-slate-700 mb-1">Security Deposit (QAR)</label>
               <input
                 type="number"
                 value={newUnitForm.securityDeposit}

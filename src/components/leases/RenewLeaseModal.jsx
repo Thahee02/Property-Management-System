@@ -55,7 +55,7 @@ export default function RenewLeaseModal({ isOpen, onClose, lease, onRenew }) {
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-amber-800">
           <p className="font-bold">Current Expiration: {lease.endDate}</p>
           <p className="text-[11px] mt-0.5">
-            Current Monthly Rent: ${lease.monthlyRent.toLocaleString()}
+            Current Monthly Rent: QAR {lease.monthlyRent.toLocaleString()}
           </p>
         </div>
 
@@ -74,7 +74,7 @@ export default function RenewLeaseModal({ isOpen, onClose, lease, onRenew }) {
 
         <div>
           <label className="block font-bold text-slate-700 mb-1">
-            Adjusted Monthly Rent ($) *
+            Adjusted Monthly Rent (QAR) *
           </label>
           <input
             type="number"

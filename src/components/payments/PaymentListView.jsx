@@ -81,7 +81,7 @@ export default function PaymentListView({ onOpenQuickAction }) {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <MetricCard
           title="Total Rent Collected"
-          value={`$${totalCollected.toLocaleString()}`}
+          value={`QAR ${totalCollected.toLocaleString()}`}
           subtitle="Realized this cycle"
           icon={faCircleCheck}
           iconBg="bg-emerald-50 text-emerald-600"
@@ -91,7 +91,7 @@ export default function PaymentListView({ onOpenQuickAction }) {
 
         <MetricCard
           title="Pending Invoices"
-          value={`$${totalPending.toLocaleString()}`}
+          value={`QAR ${totalPending.toLocaleString()}`}
           subtitle={`${payments.filter((p) => p.status === 'Pending').length} invoices awaiting due date`}
           icon={faClock}
           iconBg="bg-amber-50 text-amber-600"
@@ -99,7 +99,7 @@ export default function PaymentListView({ onOpenQuickAction }) {
 
         <MetricCard
           title="Overdue Arrears"
-          value={`$${totalOverdue.toLocaleString()}`}
+          value={`QAR ${totalOverdue.toLocaleString()}`}
           subtitle={`${payments.filter((p) => p.status === 'Overdue').length} past grace period`}
           icon={faTriangleExclamation}
           iconBg="bg-rose-50 text-rose-600"
@@ -203,7 +203,7 @@ export default function PaymentListView({ onOpenQuickAction }) {
 
                     <td className="py-3.5 px-4">
                       <span className="font-extrabold text-slate-900 text-sm">
-                        ${p.amount.toLocaleString()}
+                        QAR {p.amount.toLocaleString()}
                       </span>
                     </td>
 

@@ -136,7 +136,7 @@ export default function LeaseDetailView({ onOpenQuickAction }) {
                 Monthly Rent
               </span>
               <span className="text-2xl font-extrabold text-emerald-700">
-                ${lease.monthlyRent?.toLocaleString()}
+                QAR {lease.monthlyRent?.toLocaleString()}
               </span>
             </div>
             <div>
@@ -144,7 +144,7 @@ export default function LeaseDetailView({ onOpenQuickAction }) {
                 Security Deposit
               </span>
               <span className="text-xl font-bold text-slate-800">
-                ${lease.securityDeposit?.toLocaleString()}
+                QAR {lease.securityDeposit?.toLocaleString()}
               </span>
             </div>
           </div>
@@ -298,7 +298,7 @@ export default function LeaseDetailView({ onOpenQuickAction }) {
             <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
               Additional Recurring Surcharges
             </span>
-            <p className="font-bold text-slate-900">${lease.additionalCharges || 0} / mo (Parking/CAM)</p>
+            <p className="font-bold text-slate-900">QAR {lease.additionalCharges || 0} / mo (Parking/CAM)</p>
           </div>
         </div>
 
@@ -344,7 +344,7 @@ export default function LeaseDetailView({ onOpenQuickAction }) {
                 leasePayments.map((p) => (
                   <tr key={p.id} className="hover:bg-slate-50">
                     <td className="py-3 px-4 font-bold text-slate-900">{p.invoiceNumber}</td>
-                    <td className="py-3 px-4 font-extrabold text-slate-900">${p.amount.toLocaleString()}</td>
+                    <td className="py-3 px-4 font-extrabold text-slate-900">QAR {p.amount.toLocaleString()}</td>
                     <td className="py-3 px-4">{p.method}</td>
                     <td className="py-3 px-4">{p.dueDate}</td>
                     <td className="py-3 px-4">{p.paymentDate || '—'}</td>

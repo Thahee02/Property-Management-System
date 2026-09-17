@@ -131,7 +131,7 @@ export default function UnitDetailModal({
             </div>
             <div className="text-right">
               <span className="text-xs text-slate-200 block">Monthly Rent</span>
-              <span className="text-lg font-extrabold text-white">${unit.monthlyRent?.toLocaleString()}/mo</span>
+              <span className="text-lg font-extrabold text-white">QAR {unit.monthlyRent?.toLocaleString()}/mo</span>
             </div>
           </div>
         </div>
@@ -174,7 +174,7 @@ export default function UnitDetailModal({
             </div>
             <div>
               <span className="text-[10px] text-slate-400 uppercase font-semibold">Deposit</span>
-              <p className="font-bold text-slate-900">${unit.securityDeposit?.toLocaleString()}</p>
+              <p className="font-bold text-slate-900">QAR {unit.securityDeposit?.toLocaleString()}</p>
             </div>
           </div>
         </div>

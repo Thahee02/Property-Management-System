@@ -123,13 +123,13 @@ export default function PaymentReceiptModal({ isOpen, onClose, payment }) {
                 <span className="block text-[10px] text-slate-400">Period: Current Billing Cycle</span>
               </td>
               <td className="py-3 text-right font-medium text-slate-900">
-                ${baseRent.toLocaleString()}
+                QAR {baseRent.toLocaleString()}
               </td>
             </tr>
             <tr>
               <td className="py-2.5 text-slate-600">Municipal Services & Utility Assessment</td>
               <td className="py-2.5 text-right font-medium text-slate-900">
-                ${taxes.toLocaleString()}
+                QAR {taxes.toLocaleString()}
               </td>
             </tr>
           </tbody>
@@ -137,7 +137,7 @@ export default function PaymentReceiptModal({ isOpen, onClose, payment }) {
             <tr className="border-t-2 border-slate-900">
               <td className="py-3 text-sm font-extrabold text-slate-900">Total Amount Settled:</td>
               <td className="py-3 text-right text-base font-extrabold text-emerald-700">
-                ${payment.amount.toLocaleString()} USD
+                QAR {payment.amount.toLocaleString()}
               </td>
             </tr>
           </tfoot>
