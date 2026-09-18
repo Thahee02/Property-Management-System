@@ -239,7 +239,7 @@ export default function UsersView() {
                 required
                 value={newUser.email}
                 onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                placeholder="s.miller@apexproperties.com"
+                placeholder="s.miller@wathnanmall.com"
                 className="w-full px-3 py-2 rounded-xl border border-slate-300"
               />
             </div>

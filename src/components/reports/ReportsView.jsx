@@ -38,7 +38,8 @@ export default function ReportsView() {
 
   const handleExportCSV = () => {
     let csvContent = 'data:text/csv;charset=utf-8,';
-    csvContent += 'Apex Properties Corporate Report: ' + selectedReport.toUpperCase() + '\r\n';
+    const company = settings?.companyName || 'Wathnan Mall';
+    csvContent += `${company} Corporate Report: ` + selectedReport.toUpperCase() + '\r\n';
     csvContent += 'Date Range: ' + dateRange + ' | Property Filter: ' + propertyFilter + '\r\n\r\n';
 
     if (selectedReport === 'occupancy') {
@@ -59,9 +60,10 @@ export default function ReportsView() {
     }
 
     const encodedUri = encodeURI(csvContent);
+    const filePrefix = (settings?.companyName || 'Wathnan_Mall').replace(/\s+/g, '_');
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `Apex_Report_${selectedReport}_${dateRange}.csv`);
+    link.setAttribute('download', `${filePrefix}_Report_${selectedReport}_${dateRange}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -406,7 +408,7 @@ export default function ReportsView() {
         {/* Sign-off footer */}
         <div className="pt-6 border-t border-slate-200 flex items-center justify-between text-slate-400 text-[10px]">
           <span>Approved by Corporate Comptroller & Portfolio Director</span>
-          <span>Apex Corporate Property Portal • Internal Confidential Record</span>
+          <span>{settings?.companyName || 'Wathnan Mall'} Property Portal • Internal Confidential Record</span>
         </div>
       </div>
     </div>

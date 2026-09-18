@@ -34,7 +34,8 @@ export default function LeaseDetailView({ onOpenQuickAction }) {
     activityLogs,
     renewLease,
     terminateLease,
-    setActiveView
+    setActiveView,
+    settings
   } = usePMSStore();
 
   const [isRenewOpen, setIsRenewOpen] = useState(false);
@@ -126,7 +127,7 @@ export default function LeaseDetailView({ onOpenQuickAction }) {
             <h1 className="text-2xl font-extrabold text-slate-900">{lease.leaseNumber}</h1>
             <p className="text-xs text-slate-500 mt-1">
               Executed between <strong className="text-slate-800">{lease.customerName}</strong> and{' '}
-              <strong className="text-slate-800">Apex Properties Ltd.</strong>
+              <strong className="text-slate-800">{settings?.companyName || 'Wathnan Mall'}</strong>
             </p>
           </div>
 

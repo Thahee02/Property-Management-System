@@ -10,7 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function ActivityLogsView() {
-  const { activityLogs } = usePMSStore();
+  const { activityLogs, settings } = usePMSStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [moduleFilter, setModuleFilter] = useState('All');
@@ -38,9 +38,10 @@ export default function ActivityLogsView() {
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
+    const filePrefix = (settings?.companyName || 'Wathnan_Mall').replace(/\s+/g, '_');
     const a = document.createElement('a');
     a.href = url;
-    a.download = `Apex_Audit_Trail_${new Date().toISOString().substring(0, 10)}.csv`;
+    a.download = `${filePrefix}_Audit_Trail_${new Date().toISOString().substring(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };

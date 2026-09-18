@@ -148,7 +148,7 @@ export default function PaymentReceiptModal({ isOpen, onClose, payment }) {
           <div>
             <div className="inline-block p-2 border-2 border-emerald-600 rounded-lg text-emerald-700 text-center uppercase tracking-widest font-extrabold text-[10px] transform -rotate-3">
               ★ SETTLED & VERIFIED ★<br />
-              APEX INTERNAL PORTAL
+              {settings?.companyName ? `${settings.companyName.toUpperCase()} INTERNAL PORTAL` : 'WATHNAN MALL INTERNAL PORTAL'}
             </div>
             <p className="text-[9px] text-slate-400 mt-2">
               Payment verified by Corporate Finance Operations.

@@ -25,7 +25,8 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
     leases,
     payments,
     maintenance,
-    currentUser
+    currentUser,
+    settings
   } = usePMSStore();
 
   // Badges calculation
@@ -164,7 +165,9 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-base tracking-tight text-white">APEX</span>
+                <span className="font-extrabold text-base tracking-tight text-white uppercase truncate max-w-[170px]">
+                  {settings?.companyName || 'WATHNAN MALL'}
+                </span>
               </div>
               <p className="text-[11px] text-slate-400 font-medium truncate max-w-[140px]">
                 Property Operations

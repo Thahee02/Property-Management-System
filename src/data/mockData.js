@@ -2,40 +2,40 @@ export const INITIAL_USERS = [
   {
     id: 'USR-001',
     name: 'David Sterling',
-    email: 'd.sterling@apexproperties.com',
+    email: 'd.sterling@wathnanmall.com',
     role: 'Administrator',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-    phone: '+1 (555) 234-5678',
+    phone: '+974 4444 2201',
     status: 'Active',
     department: 'Executive Leadership'
   },
   {
     id: 'USR-002',
     name: 'Marcus Vance',
-    email: 'm.vance@apexproperties.com',
+    email: 'm.vance@wathnanmall.com',
     role: 'Property Manager',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-    phone: '+1 (555) 345-6789',
+    phone: '+974 4444 2202',
     status: 'Active',
-    department: 'Commercial & Multi-Family'
+    department: 'Mall Operations & Retail'
   },
   {
     id: 'USR-003',
     name: 'Elena Rostova',
-    email: 'e.rostova@apexproperties.com',
+    email: 'e.rostova@wathnanmall.com',
     role: 'Property Manager',
     avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
-    phone: '+1 (555) 456-7890',
+    phone: '+974 4444 2203',
     status: 'Active',
-    department: 'Residential & Luxury Estates'
+    department: 'Leasing & Tenancy'
   },
   {
     id: 'USR-004',
     name: 'Carlos Mendez',
-    email: 'c.mendez@apexproperties.com',
+    email: 'c.mendez@wathnanmall.com',
     role: 'Staff',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
-    phone: '+1 (555) 567-8901',
+    phone: '+974 4444 2204',
     status: 'Active',
     department: 'Facilities & Maintenance'
   }
@@ -879,7 +879,7 @@ export const INITIAL_LEASES = [
     noticePeriodDays: 90,
     status: 'Active',
     additionalCharges: 150, // Landscaping & Pool service
-    notes: 'Full lawn care and pool chemical balancing managed by Apex Properties vendor.',
+    notes: 'Full lawn care and pool chemical balancing managed by Wathnan Mall vendor.',
     documentsCount: 2
   },
   {
@@ -1518,14 +1518,14 @@ export const INITIAL_ACTIVITY_LOGS = [
 ];
 
 export const INITIAL_SETTINGS = {
-  companyName: 'Apex Properties Corporate Management',
-  portalSubtitle: 'Internal Operations & Asset Management Portal',
-  taxRegistrationNumber: 'US-EIN-45-8912340',
-  supportEmail: 'operations@apexproperties.com',
-  emergencyDispatchPhone: '+1 (800) 555-APEX',
-  hqAddress: '1000 Commercial Plaza, Suite 400, Chicago, IL 60601',
+  companyName: 'Wathnan Mall',
+  portalSubtitle: 'Mall Operations & Property Management Portal',
+  taxRegistrationNumber: 'QA-CR-8912340',
+  supportEmail: 'management@wathnanmall.com',
+  emergencyDispatchPhone: '+974 4444 2200',
+  hqAddress: 'Muaither, Al Rayyan, Doha, Qatar',
   currency: 'QAR',
-  taxRatePercent: 7.5,
+  taxRatePercent: 0,
   gracePeriodDays: 5,
   defaultLeaseDurationMonths: 12,
   renewalNoticeDays: 60,

@@ -10,9 +10,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function LoginView({ onLoginSuccess }) {
-  const { users, setCurrentUser } = usePMSStore();
+  const { users, setCurrentUser, settings } = usePMSStore();
 
-  const [email, setEmail] = useState('d.sterling@apexproperties.com');
+  const [email, setEmail] = useState(users[0]?.email || 'd.sterling@wathnanmall.com');
   const [password, setPassword] = useState('••••••••••••');
 
   const handleQuickLogin = (userId) => {
@@ -40,10 +40,10 @@ export default function LoginView({ onLoginSuccess }) {
         </div>
 
         <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-          Apex Properties
+          {settings?.companyName || 'Wathnan Mall'}
         </h2>
         <p className="mt-1 text-xs text-emerald-400 font-semibold tracking-wider uppercase">
-          Internal Corporate Management Portal
+          {settings?.portalSubtitle || 'Mall Operations & Property Portal'}
         </p>
         <p className="mt-2 text-xs text-slate-400 max-w-sm mx-auto">
           Private back-office operations gateway for authorized property managers, facilities technicians, and executive leadership.
@@ -62,7 +62,7 @@ export default function LoginView({ onLoginSuccess }) {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@apexproperties.com"
+                placeholder="name@wathnanmall.com"
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-hidden focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-medium"
               />
             </div>

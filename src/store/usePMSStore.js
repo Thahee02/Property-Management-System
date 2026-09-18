@@ -12,15 +12,40 @@ import {
   INITIAL_SETTINGS
 } from '../data/mockData';
 
-const STORAGE_KEY = 'apex_pms_internal_portal_v1';
+const STORAGE_KEY = 'wathnan_pms_internal_portal_v1';
+const PREV_STORAGE_KEY = 'apex_pms_internal_portal_v1';
 
 const loadSavedState = () => {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    let saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) {
+      saved = localStorage.getItem(PREV_STORAGE_KEY);
+    }
     if (saved) {
       const parsed = JSON.parse(saved);
-      if (parsed?.settings?.currency === 'USD ($)') {
-        parsed.settings.currency = 'QAR';
+      if (parsed?.settings) {
+        if (!parsed.settings.companyName || parsed.settings.companyName.includes('Apex')) {
+          parsed.settings.companyName = 'Wathnan Mall';
+          parsed.settings.portalSubtitle = 'Mall Operations & Property Management Portal';
+          parsed.settings.supportEmail = 'management@wathnanmall.com';
+          parsed.settings.hqAddress = 'Muaither, Al Rayyan, Doha, Qatar';
+          parsed.settings.emergencyDispatchPhone = '+974 4444 2200';
+          parsed.settings.taxRegistrationNumber = 'QA-CR-8912340';
+        }
+        if (parsed.settings.currency === 'USD ($)') {
+          parsed.settings.currency = 'QAR';
+        }
+      }
+      if (Array.isArray(parsed?.users)) {
+        parsed.users = parsed.users.map((u) => {
+          if (u.email && u.email.includes('@apexproperties.com')) {
+            return {
+              ...u,
+              email: u.email.replace('@apexproperties.com', '@wathnanmall.com')
+            };
+          }
+          return u;
+        });
       }
       return parsed;
     }
