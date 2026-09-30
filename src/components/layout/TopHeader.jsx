@@ -6,7 +6,6 @@ import {
   faMagnifyingGlass,
   faBell,
   faPlus,
-  faUserTie,
   faAngleDown,
   faCreditCard,
   faUserPlus,
@@ -14,35 +13,27 @@ import {
   faWrench,
   faClock,
   faTriangleExclamation,
-  faBuilding,
-  faCheckDouble
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function TopHeader({ setMobileOpen, onOpenQuickAction, onOpenSearchModal }) {
   const {
-    currentUser,
     users,
-    setCurrentUser,
     leases,
     payments,
     maintenance,
     setActiveView
   } = usePMSStore();
 
-  const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
   const [quickActionOpen, setQuickActionOpen] = useState(false);
 
-  const roleRef = useRef(null);
   const notifRef = useRef(null);
   const quickRef = useRef(null);
+  const headerUser = users.find((user) => user.id === 'USR-001');
 
   // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (roleRef.current && !roleRef.current.contains(event.target)) {
-        setRoleDropdownOpen(false);
-      }
       if (notifRef.current && !notifRef.current.contains(event.target)) {
         setNotifDropdownOpen(false);
       }
@@ -61,7 +52,7 @@ export default function TopHeader({ setMobileOpen, onOpenQuickAction, onOpenSear
   const totalAlerts = expiringLeases.length + overduePayments.length + urgentMaintenance.length;
 
   return (
-    <header className="h-18 bg-white border-b border-slate-200/90 px-4 lg:px-8 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+    <header className="h-18 bg-white border-b border-slate-200/90 px-4 lg:px-8 lg:py-2 flex items-center justify-between sticky top-0 z-30 shadow-xs">
       {/* Left: Mobile Toggle & Global Search */}
       <div className="flex items-center gap-3 lg:gap-4 flex-1 max-w-xl">
         <button
@@ -89,7 +80,7 @@ export default function TopHeader({ setMobileOpen, onOpenQuickAction, onOpenSear
         </div>
       </div>
 
-      {/* Right: Quick Actions + Role Switcher + Alerts + Profile */}
+      {/* Right: Quick Actions + Alerts + Profile */}
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Quick Action Button */}
         <div className="relative" ref={quickRef}>
@@ -262,69 +253,21 @@ export default function TopHeader({ setMobileOpen, onOpenQuickAction, onOpenSear
           )}
         </div>
 
-        {/* Dynamic Staff Role Switcher */}
-        <div className="relative" ref={roleRef}>
-          <button
-            onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
-            className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl border border-slate-200/90 bg-slate-50/80 hover:bg-slate-100 transition-all text-left"
-          >
+        {headerUser && (
+          <div className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl border border-slate-200/90 bg-slate-50/80">
             <img
-              src={currentUser.avatar}
-              alt={currentUser.name}
+              src={headerUser.avatar}
+              alt={headerUser.name}
               className="w-8 h-8 rounded-lg object-cover ring-1 ring-slate-300"
             />
             <div className="hidden xl:block">
-              <div className="text-xs font-bold text-slate-900 leading-tight flex items-center gap-1.5">
-                {currentUser.name}
-                <FontAwesomeIcon icon={faAngleDown} className="text-[10px] text-slate-400" />
-              </div>
+              <div className="text-xs font-bold text-slate-900 leading-tight">{headerUser.name}</div>
               <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-100/70 px-1.5 py-0.2 rounded inline-block mt-0.5">
-                {currentUser.role}
+                {headerUser.role}
               </span>
             </div>
-          </button>
-
-          {roleDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50">
-              <div className="px-4 py-2 border-b border-slate-100">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  Switch Active Portal Role
-                </p>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Demonstrate system views as different internal team members:
-                </p>
-              </div>
-              <div className="py-1">
-                {users.map((user) => (
-                  <button
-                    key={user.id}
-                    onClick={() => {
-                      setCurrentUser(user.id);
-                      setRoleDropdownOpen(false);
-                    }}
-                    className={`w-full flex items-center gap-3 px-4 py-2.5 text-left text-xs transition-colors ${
-                      currentUser.id === user.id ? 'bg-emerald-50 text-emerald-950 font-bold' : 'hover:bg-slate-50 text-slate-700'
-                    }`}
-                  >
-                    <img
-                      src={user.avatar}
-                      alt={user.name}
-                      className="w-8 h-8 rounded-lg object-cover ring-1 ring-slate-200"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-slate-900 truncate">{user.name}</div>
-                      <div className="text-[10px] text-slate-500 flex items-center gap-1">
-                        <span className="font-medium text-emerald-700">{user.role}</span>
-                        <span>•</span>
-                        <span className="truncate">{user.department}</span>
-                      </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </header>
   );

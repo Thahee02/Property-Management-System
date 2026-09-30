@@ -38,6 +38,9 @@ const loadSavedState = () => {
       }
       if (Array.isArray(parsed?.users)) {
         parsed.users = parsed.users.map((u) => {
+          if (u.id === 'USR-001') {
+            u = { ...u, name: 'Ahamed' };
+          }
           if (u.email && u.email.includes('@apexproperties.com')) {
             return {
               ...u,
@@ -46,6 +49,9 @@ const loadSavedState = () => {
           }
           return u;
         });
+        if (parsed.currentUser?.id === 'USR-001') {
+          parsed.currentUser = parsed.users.find((u) => u.id === 'USR-001');
+        }
       }
       return parsed;
     }

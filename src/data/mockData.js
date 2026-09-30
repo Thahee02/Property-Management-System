@@ -1,44 +1,44 @@
 export const INITIAL_USERS = [
   {
     id: 'USR-001',
-    name: 'David Sterling',
-    email: 'd.sterling@wathnanmall.com',
+    name: 'Ahamed',
+    email: 'ahamed@wathnanmall.com',
     role: 'Administrator',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
     phone: '+974 4444 2201',
     status: 'Active',
     department: 'Executive Leadership'
   },
-  {
-    id: 'USR-002',
-    name: 'Marcus Vance',
-    email: 'm.vance@wathnanmall.com',
-    role: 'Property Manager',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-    phone: '+974 4444 2202',
-    status: 'Active',
-    department: 'Mall Operations & Retail'
-  },
-  {
-    id: 'USR-003',
-    name: 'Elena Rostova',
-    email: 'e.rostova@wathnanmall.com',
-    role: 'Property Manager',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
-    phone: '+974 4444 2203',
-    status: 'Active',
-    department: 'Leasing & Tenancy'
-  },
-  {
-    id: 'USR-004',
-    name: 'Carlos Mendez',
-    email: 'c.mendez@wathnanmall.com',
-    role: 'Staff',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
-    phone: '+974 4444 2204',
-    status: 'Active',
-    department: 'Facilities & Maintenance'
-  }
+  // {
+  //   id: 'USR-002',
+  //   name: 'Marcus Vance',
+  //   email: 'm.vance@wathnanmall.com',
+  //   role: 'Property Manager',
+  //   avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+  //   phone: '+974 4444 2202',
+  //   status: 'Active',
+  //   department: 'Mall Operations & Retail'
+  // },
+  // {
+  //   id: 'USR-003',
+  //   name: 'Elena Rostova',
+  //   email: 'e.rostova@wathnanmall.com',
+  //   role: 'Property Manager',
+  //   avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+  //   phone: '+974 4444 2203',
+  //   status: 'Active',
+  //   department: 'Leasing & Tenancy'
+  // },
+  // {
+  //   id: 'USR-004',
+  //   name: 'Carlos Mendez',
+  //   email: 'c.mendez@wathnanmall.com',
+  //   role: 'Staff',
+  //   avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
+  //   phone: '+974 4444 2204',
+  //   status: 'Active',
+  //   department: 'Facilities & Maintenance'
+  // }
 ];
 
 export const INITIAL_PROPERTIES = [
