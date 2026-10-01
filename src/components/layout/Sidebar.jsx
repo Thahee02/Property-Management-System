@@ -15,10 +15,11 @@ import {
   faClockRotateLeft,
   faGear,
   faXmark,
-  faBuildingCircleCheck
+  faBuildingCircleCheck,
+  faRightFromBracket
 } from '@fortawesome/free-solid-svg-icons';
 
-export default function Sidebar({ mobileOpen, setMobileOpen }) {
+export default function Sidebar({ mobileOpen, setMobileOpen, onSignOut }) {
   const {
     activeView,
     setActiveView,
@@ -242,6 +243,19 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
               </div>
             );
           })}
+
+          {/* Sign Out Button */}
+          {onSignOut && (
+            <div className="pt-4 border-t border-slate-800">
+              <button
+                onClick={onSignOut}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-rose-400 hover:bg-rose-950/40 hover:text-rose-300 transition-all border border-rose-900/30"
+              >
+                <FontAwesomeIcon icon={faRightFromBracket} className="w-4 h-4 text-rose-500" />
+                <span>Sign Out of Portal</span>
+              </button>
+            </div>
+          )}
         </div>
       </aside>
     </>

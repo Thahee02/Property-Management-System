@@ -15,14 +15,17 @@ import {
   faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 
-export default function TopHeader({ setMobileOpen, onOpenQuickAction, onOpenSearchModal }) {
+export default function TopHeader({ setMobileOpen, onOpenQuickAction, onOpenSearchModal, onOpenLicenseModal, onSignOut }) {
   const {
     users,
     leases,
     payments,
     maintenance,
-    setActiveView
+    setActiveView,
+    getTrialInfo
   } = usePMSStore();
+
+  const trialInfo = getTrialInfo();
 
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
   const [quickActionOpen, setQuickActionOpen] = useState(false);
@@ -252,6 +255,25 @@ export default function TopHeader({ setMobileOpen, onOpenQuickAction, onOpenSear
             </div>
           )}
         </div>
+
+        {/* Trial / License Status Pill */}
+        <button
+          onClick={onOpenLicenseModal}
+          className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold border transition-all ${
+            trialInfo.isLicensed
+              ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
+              : trialInfo.isExpired
+              ? 'bg-rose-50 text-rose-700 border-rose-300 hover:bg-rose-100 animate-pulse'
+              : 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100'
+          }`}
+          title="Click to view License & Trial details"
+        >
+          <FontAwesomeIcon
+            icon={trialInfo.isLicensed ? faClock : faClock}
+            className={trialInfo.isLicensed ? 'text-emerald-600' : trialInfo.isExpired ? 'text-rose-600' : 'text-amber-600'}
+          />
+          <span>{trialInfo.statusText}</span>
+        </button>
 
         {headerUser && (
           <div className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl border border-slate-200/90 bg-slate-50/80">

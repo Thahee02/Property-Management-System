@@ -86,6 +86,12 @@ export const usePMSStore = create((set, get) => ({
   activityLogs: savedState?.activityLogs || INITIAL_ACTIVITY_LOGS,
   settings: savedState?.settings || INITIAL_SETTINGS,
 
+  // Trial & License state
+  trialStartDate: savedState?.trialStartDate || new Date().toISOString(),
+  trialDurationDays: 14,
+  licenseKey: savedState?.licenseKey || '',
+  isLicensed: savedState?.isLicensed || false,
+
   // Synchronize state helper
   persistState: () => {
     try {
@@ -102,11 +108,96 @@ export const usePMSStore = create((set, get) => ({
         documents: state.documents,
         activityLogs: state.activityLogs,
         settings: state.settings,
+        trialStartDate: state.trialStartDate,
+        licenseKey: state.licenseKey,
+        isLicensed: state.isLicensed,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch (err) {
       console.error("Could not save to localStorage", err);
     }
+  },
+
+  // Trial & License Management Helpers
+  getTrialInfo: () => {
+    const state = get();
+    if (state.isLicensed || (state.licenseKey && state.licenseKey.trim().length > 0)) {
+      return {
+        isLicensed: true,
+        isExpired: false,
+        daysRemaining: Infinity,
+        daysElapsed: 0,
+        totalDays: 14,
+        percentageUsed: 0,
+        status: 'LICENSED',
+        statusText: 'Enterprise License Active',
+        licenseKey: state.licenseKey
+      };
+    }
+
+    const startDate = state.trialStartDate ? new Date(state.trialStartDate) : new Date();
+    const now = new Date();
+    const diffTime = Math.max(0, now.getTime() - startDate.getTime());
+    const daysElapsed = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const totalDays = 14;
+    const daysRemaining = Math.max(0, totalDays - daysElapsed);
+    const isExpired = daysElapsed >= totalDays;
+    const percentageUsed = Math.min(100, Math.round((daysElapsed / totalDays) * 100));
+
+    const endDate = new Date(startDate.getTime() + totalDays * 86400000);
+
+    return {
+      isLicensed: false,
+      isExpired,
+      daysRemaining,
+      daysElapsed,
+      totalDays,
+      percentageUsed,
+      trialStartDate: startDate.toISOString(),
+      trialEndDate: endDate.toISOString(),
+      status: isExpired ? 'EXPIRED' : 'ACTIVE_TRIAL',
+      statusText: isExpired ? '14-Day Trial Expired' : `${daysRemaining} Days Remaining in Trial`
+    };
+  },
+
+  activateLicense: (key) => {
+    const formattedKey = (key || '').toUpperCase().trim();
+    if (!formattedKey) {
+      return { success: false, error: 'Please enter a valid license key' };
+    }
+    // Accept standard keys like WATHNAN-PRO-2026 or any 12+ char string
+    if (formattedKey === 'WATHNAN-PRO-2026' || formattedKey === 'ACTIVATE-PMS-2026' || formattedKey.length >= 10) {
+      set({ isLicensed: true, licenseKey: formattedKey });
+      get().addToast('Enterprise License successfully activated! All system features unlocked.', 'success');
+      get().logActivity(`Activated Enterprise License Key [${formattedKey}]`, 'Administration');
+      get().persistState();
+      return { success: true };
+    }
+    return { success: false, error: 'Invalid license key. Try demo key: WATHNAN-PRO-2026' };
+  },
+
+  resetTrial: () => {
+    const nowStr = new Date().toISOString();
+    set({ trialStartDate: nowStr, isLicensed: false, licenseKey: '' });
+    get().addToast('14-Day Free Evaluation Period reset to Day 1 (14 Days Remaining)', 'info');
+    get().logActivity('Reset 14-day trial evaluation period', 'Administration');
+    get().persistState();
+  },
+
+  simulateTrialExpired: () => {
+    const expiredDate = new Date(Date.now() - 15 * 86400000).toISOString();
+    set({ trialStartDate: expiredDate, isLicensed: false, licenseKey: '' });
+    get().addToast('Simulated Trial Expired state (15 days elapsed). Locked screen active.', 'warning');
+    get().logActivity('Simulated Trial Expiration for testing', 'Administration');
+    get().persistState();
+  },
+
+  setTrialDaysRemaining: (days) => {
+    const elapsedDays = Math.max(0, 14 - days);
+    const customDate = new Date(Date.now() - elapsedDays * 86400000).toISOString();
+    set({ trialStartDate: customDate, isLicensed: false, licenseKey: '' });
+    get().addToast(`Trial period adjusted: ${days} day(s) remaining`, 'info');
+    get().persistState();
   },
 
   // Reset to initial demo data

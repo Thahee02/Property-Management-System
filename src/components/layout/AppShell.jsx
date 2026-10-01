@@ -27,11 +27,15 @@ import UsersView from '../admin/UsersView';
 import ActivityLogsView from '../admin/ActivityLogsView';
 import SettingsView from '../admin/SettingsView';
 
-export default function AppShell() {
-  const { activeView, addCustomer } = usePMSStore();
+import TrialExpiredModal from '../auth/TrialExpiredModal';
+
+export default function AppShell({ onSignOut }) {
+  const { activeView, addCustomer, getTrialInfo } = usePMSStore();
+  const trialInfo = getTrialInfo();
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [licenseModalOpen, setLicenseModalOpen] = useState(false);
 
   // Quick Action Modal States
   const [quickCustomerOpen, setQuickCustomerOpen] = useState(false);
@@ -90,7 +94,7 @@ export default function AppShell() {
   return (
     <div className="flex h-screen overflow-hidden bg-slate-100 text-slate-800 antialiased font-sans">
       {/* Sidebar navigation */}
-      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} onSignOut={onSignOut} />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -99,6 +103,8 @@ export default function AppShell() {
           setMobileOpen={setMobileOpen}
           onOpenQuickAction={handleOpenQuickAction}
           onOpenSearchModal={() => setSearchModalOpen(true)}
+          onOpenLicenseModal={() => setLicenseModalOpen(true)}
+          onSignOut={onSignOut}
         />
 
         {/* Dynamic Page View Body */}
@@ -138,6 +144,17 @@ export default function AppShell() {
         isOpen={quickMaintenanceOpen}
         onClose={() => setQuickMaintenanceOpen(false)}
         preselected={quickActionPreselected}
+      />
+
+      {/* License & Trial Expired Management Modal */}
+      <TrialExpiredModal
+        isOpen={licenseModalOpen || (trialInfo.isExpired && !trialInfo.isLicensed)}
+        onClose={() => {
+          setLicenseModalOpen(false);
+          if (trialInfo.isExpired && !trialInfo.isLicensed && onSignOut) {
+            onSignOut();
+          }
+        }}
       />
 
       {/* Toast Notification Container */}
