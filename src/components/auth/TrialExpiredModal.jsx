@@ -56,13 +56,13 @@ export default function TrialExpiredModal({ isOpen, onClose }) {
               </div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold uppercase tracking-wider mb-2">
                 <FontAwesomeIcon icon={faTriangleExclamation} />
-                Trial Expired Notice
+                System Access Expired
               </div>
               <h2 className="text-2xl font-bold text-slate-900">
-                14-Day Free Trial Expired
+                System License Expired
               </h2>
               <p className="mt-3 text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
-                Your 14-day evaluation trial for <strong className="text-slate-900">{settings?.companyName || 'Wathnan Mall'} Property Management System</strong> has ended. Access to database modifications and property administration is currently locked.
+                The access validity for <strong className="text-slate-900">{settings?.companyName || 'Wathnan Mall'} Property Management System</strong> expired on <strong className="text-rose-600 font-bold">28.10.2026</strong>. System logins and administrative functions are currently locked.
               </p>
             </>
           ) : (
@@ -71,13 +71,13 @@ export default function TrialExpiredModal({ isOpen, onClose }) {
                 <FontAwesomeIcon icon={faClock} />
               </div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider mb-2">
-                Evaluation Trial Active
+                System License Active (Valid until 28.10.2026)
               </div>
               <h2 className="text-2xl font-bold text-slate-900">
                 {trial.daysRemaining} {trial.daysRemaining === 1 ? 'Day' : 'Days'} Remaining
               </h2>
               <p className="mt-3 text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
-                You are currently using the 14-day free evaluation trial of <strong className="text-slate-900">{settings?.companyName || 'Wathnan Mall'} Property Management System</strong>. You have <span className="font-bold text-amber-600">{trial.daysRemaining} {trial.daysRemaining === 1 ? 'day' : 'days'} remaining</span>.
+                You are currently using <strong className="text-slate-900">{settings?.companyName || 'Wathnan Mall'} Property Management System</strong>. The system is licensed to work until <strong className="text-slate-900">28.10.2026</strong>. You have <span className="font-bold text-amber-600">{trial.daysRemaining} {trial.daysRemaining === 1 ? 'day' : 'days'} remaining</span>.
               </p>
             </>
           )}

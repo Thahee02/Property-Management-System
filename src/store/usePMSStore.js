@@ -86,9 +86,8 @@ export const usePMSStore = create((set, get) => ({
   activityLogs: savedState?.activityLogs || INITIAL_ACTIVITY_LOGS,
   settings: savedState?.settings || INITIAL_SETTINGS,
 
-  // Trial & License state
-  trialStartDate: savedState?.trialStartDate || new Date().toISOString(),
-  trialDurationDays: 14,
+  // Trial & License state (Hardcoded system expiration: 28.10.2026)
+  expiryDateStr: '28.10.2026',
   licenseKey: savedState?.licenseKey || '',
   isLicensed: savedState?.isLicensed || false,
 
@@ -108,7 +107,6 @@ export const usePMSStore = create((set, get) => ({
         documents: state.documents,
         activityLogs: state.activityLogs,
         settings: state.settings,
-        trialStartDate: state.trialStartDate,
         licenseKey: state.licenseKey,
         isLicensed: state.isLicensed,
       };
@@ -118,45 +116,45 @@ export const usePMSStore = create((set, get) => ({
     }
   },
 
-  // Trial & License Management Helpers
+  // Trial & License Management Helpers (Hardcoded Expiry: 28.10.2026)
   getTrialInfo: () => {
     const state = get();
+    const expiryDateFormatted = '28.10.2026';
+
     if (state.isLicensed || (state.licenseKey && state.licenseKey.trim().length > 0)) {
       return {
         isLicensed: true,
         isExpired: false,
         daysRemaining: Infinity,
         daysElapsed: 0,
-        totalDays: 14,
+        totalDays: 0,
         percentageUsed: 0,
+        expiryDateFormatted,
         status: 'LICENSED',
         statusText: 'Enterprise License Active',
         licenseKey: state.licenseKey
       };
     }
 
-    const startDate = state.trialStartDate ? new Date(state.trialStartDate) : new Date();
+    // Expiry date fixed to 28 October 2026 at end of day 23:59:59
+    const expiryDate = new Date('2026-10-28T23:59:59');
     const now = new Date();
-    const diffTime = Math.max(0, now.getTime() - startDate.getTime());
-    const daysElapsed = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const totalDays = 14;
-    const daysRemaining = Math.max(0, totalDays - daysElapsed);
-    const isExpired = daysElapsed >= totalDays;
-    const percentageUsed = Math.min(100, Math.round((daysElapsed / totalDays) * 100));
-
-    const endDate = new Date(startDate.getTime() + totalDays * 86400000);
+    const diffTime = expiryDate.getTime() - now.getTime();
+    
+    // Check if system access is expired (current date > 28.10.2026)
+    const isExpired = diffTime <= 0;
+    const daysRemaining = isExpired ? 0 : Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
 
     return {
       isLicensed: false,
       isExpired,
       daysRemaining,
-      daysElapsed,
-      totalDays,
-      percentageUsed,
-      trialStartDate: startDate.toISOString(),
-      trialEndDate: endDate.toISOString(),
+      expiryDateFormatted,
+      expiryDate: expiryDate.toISOString(),
       status: isExpired ? 'EXPIRED' : 'ACTIVE_TRIAL',
-      statusText: isExpired ? '14-Day Trial Expired' : `${daysRemaining} Days Remaining in Trial`
+      statusText: isExpired 
+        ? 'System Access Expired (28.10.2026)' 
+        : `${daysRemaining} ${daysRemaining === 1 ? 'Day' : 'Days'} Remaining (Valid until 28.10.2026)`
     };
   },
 
@@ -177,26 +175,21 @@ export const usePMSStore = create((set, get) => ({
   },
 
   resetTrial: () => {
-    const nowStr = new Date().toISOString();
-    set({ trialStartDate: nowStr, isLicensed: false, licenseKey: '' });
-    get().addToast('14-Day Free Evaluation Period reset to Day 1 (14 Days Remaining)', 'info');
-    get().logActivity('Reset 14-day trial evaluation period', 'Administration');
+    set({ isLicensed: false, licenseKey: '' });
+    get().addToast('System validity reset to default hardcoded expiry (28.10.2026)', 'info');
+    get().logActivity('Reset evaluation period to default expiry date (28.10.2026)', 'Administration');
     get().persistState();
   },
 
   simulateTrialExpired: () => {
-    const expiredDate = new Date(Date.now() - 15 * 86400000).toISOString();
-    set({ trialStartDate: expiredDate, isLicensed: false, licenseKey: '' });
-    get().addToast('Simulated Trial Expired state (15 days elapsed). Locked screen active.', 'warning');
-    get().logActivity('Simulated Trial Expiration for testing', 'Administration');
+    set({ isLicensed: false, licenseKey: '' });
+    get().addToast('System validity active until 28.10.2026.', 'warning');
     get().persistState();
   },
 
   setTrialDaysRemaining: (days) => {
-    const elapsedDays = Math.max(0, 14 - days);
-    const customDate = new Date(Date.now() - elapsedDays * 86400000).toISOString();
-    set({ trialStartDate: customDate, isLicensed: false, licenseKey: '' });
-    get().addToast(`Trial period adjusted: ${days} day(s) remaining`, 'info');
+    set({ isLicensed: false, licenseKey: '' });
+    get().addToast(`System validity target set to 28.10.2026`, 'info');
     get().persistState();
   },
 

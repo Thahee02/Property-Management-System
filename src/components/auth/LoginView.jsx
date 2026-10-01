@@ -30,6 +30,7 @@ export default function LoginView({ onLoginSuccess }) {
     setFormError('');
 
     if (trial.isExpired) {
+      setFormError('System access expired on 28.10.2026. Login is disabled.');
       setShowExpiredModal(true);
       return;
     }
@@ -116,7 +117,7 @@ export default function LoginView({ onLoginSuccess }) {
               icon={faClock}
               className={trial.isExpired ? 'text-rose-400' : 'text-emerald-400'}
             />
-            <span className="text-xs text-slate-400 font-medium">Evaluation Period:</span>
+            <span className="text-xs text-slate-400 font-medium">System Validity:</span>
           </div>
           <span
             className={`text-xs font-bold px-3 py-1 rounded-full ${
@@ -130,8 +131,8 @@ export default function LoginView({ onLoginSuccess }) {
             {trial.isLicensed
               ? 'Licensed Edition'
               : trial.isExpired
-              ? 'Trial Expired'
-              : `${trial.daysRemaining} Days Remaining`}
+              ? 'Expired (28.10.2026)'
+              : `${trial.daysRemaining} Days Remaining (Until 28.10.2026)`}
           </span>
         </div>
       </div>
@@ -150,14 +151,14 @@ export default function LoginView({ onLoginSuccess }) {
             </p>
           </div>
 
-          {/* Trial Expired Alert Banner */}
+          {/* System Expired Alert Banner */}
           {trial.isExpired && (
             <div className="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start gap-3">
               <FontAwesomeIcon icon={faTriangleExclamation} className="text-rose-600 text-base shrink-0 mt-0.5" />
               <div>
-                <p className="font-bold text-xs">14-Day Free Trial Expired</p>
+                <p className="font-bold text-xs">System Access Expired (28.10.2026)</p>
                 <p className="text-[11px] text-rose-700 mt-0.5 leading-relaxed">
-                  Your 14-day evaluation trial has ended. Please contact support to activate your system.
+                  The system validity period ended on 28.10.2026. Logins are currently disabled. Please contact support to renew your license.
                 </p>
               </div>
             </div>
